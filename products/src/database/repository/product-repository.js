@@ -1,7 +1,6 @@
 const { ProductModel } = require("../models");
 const { APIError, BadRequestError } = require("../../utils/app-errors");
 
-//Dealing with data base operations
 class ProductRepository {
   async CreateProduct({
     name,
