@@ -27,7 +27,7 @@ module.exports = (app) => {
     }
   });
 
-  //search by categ
+  //search by category
   app.get("/category/:type", async (req, res, next) => {
     const type = req.params.type;
 
@@ -38,7 +38,6 @@ module.exports = (app) => {
       next(err);
     }
   });
-
 
   //search by product id
   app.get("/:id", async (req, res, next) => {
@@ -69,7 +68,7 @@ module.exports = (app) => {
       const { data } = await service.GetProductPayload(
         _id,
         { productId: req.body._id },
-        "WISHLIST_ADD"
+        "ADD_TO_WISHLIST"
       );
       PublishCustomerEvent(data);
       return res.status(200).json(data.data.product);
@@ -84,7 +83,7 @@ module.exports = (app) => {
       const { data } = await service.GetProductPayload(
         _id,
         { productId },
-        "WISHLIST_REMOVE"
+        "REMOVE_FROM_WISHLIST"
       );
       PublishCustomerEvent(data);
       return res.status(200).json(data.data.product);
