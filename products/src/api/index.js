@@ -1,6 +1,6 @@
 const appEvents = require("./app-events");
 
 module.exports = {
-  products: require("./products"),
+  books: require("./books"),
   appEvents: require("./app-events"),
 };

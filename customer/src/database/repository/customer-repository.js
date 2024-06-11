@@ -101,7 +101,7 @@ class CustomerRepository {
     customerId,
     { _id, name, desc, price, available, banner }
   ) {
-    const product = {
+    const book = {
       _id,
       name,
       desc,
@@ -121,7 +121,7 @@ class CustomerRepository {
         if (wishlist.length > 0) {
           let isExist = false;
           wishlist.map((item) => {
-            if (item._id.toString() === product._id.toString()) {
+            if (item._id.toString() === book._id.toString()) {
               const index = wishlist.indexOf(item);
               wishlist.splice(index, 1);
               isExist = true;
@@ -129,10 +129,10 @@ class CustomerRepository {
           });
 
           if (!isExist) {
-            wishlist.push(product);
+            wishlist.push(book);
           }
         } else {
-          wishlist.push(product);
+          wishlist.push(book);
         }
 
         profile.wishlist = wishlist;
@@ -156,7 +156,7 @@ class CustomerRepository {
 
       if (profile) {
         const cartItem = {
-          product: { _id, name, price, banner },
+          book: { _id, name, price, banner },
           unit: qty,
         };
 
@@ -165,7 +165,7 @@ class CustomerRepository {
         if (cartItems.length > 0) {
           let isExist = false;
           cartItems.map((item) => {
-            if (item.product._id.toString() === product._id.toString()) {
+            if (item.book._id.toString() === book._id.toString()) {
               if (isRemove) {
                 cartItems.splice(cartItems.indexOf(item), 1);
               } else {

@@ -115,11 +115,11 @@ class CustomerService {
     }
   }
 
-  async AddToWishlist(customerId, product) {
+  async AddToWishlist(customerId, book) {
     try {
       const wishlistResult = await this.repository.AddWishlistItem(
         customerId,
-        product
+        book
       );
       return FormateData(wishlistResult);
     } catch (err) {
@@ -127,11 +127,11 @@ class CustomerService {
     }
   }
 
-  async ManageCart(customerId, product, qty, isRemove) {
+  async ManageCart(customerId, book, qty, isRemove) {
     try {
       const cartResult = await this.repository.AddCartItem(
         customerId,
-        product,
+        book,
         qty,
         isRemove
       );
@@ -155,18 +155,18 @@ class CustomerService {
 
   async SubscribeEvents(payload) {
     const { event, data } = payload;
-    const { userId, product, order, qty } = data;
+    const { userId, book, order, qty } = data;
 
     switch (event) {
       case "ADD_TO_WISHLIST":
       case "REMOVE_FROM_WISHLIST":
-        this.AddToWishlist(userId, product);
+        this.AddToWishlist(userId, book);
         break;
       case "ADD_TO_CART":
-        this.ManageCart(userId, product, qty, false);
+        this.ManageCart(userId, book, qty, false);
         break;
       case "REMOVE_FROM_CART":
-        this.ManageCart(userId, product, qty, true);
+        this.ManageCart(userId, book, qty, true);
         break;
       case "CREATE_ORDER":
         this.ManageOrder(userId, order);

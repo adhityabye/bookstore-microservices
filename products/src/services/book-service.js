@@ -18,16 +18,16 @@ class ProductService {
 
   async GetProducts() {
     try {
-      const products = await this.repository.Products();
+      const books = await this.repository.books();
 
       let categories = {};
 
-      products.map(({ type }) => {
+      books.map(({ type }) => {
         categories[type] = type;
       });
 
       return FormateData({
-        products,
+        books,
         categories: Object.keys(categories),
       });
     } catch (err) {
@@ -37,8 +37,8 @@ class ProductService {
 
   async GetProductDescription(productId) {
     try {
-      const product = await this.repository.FindById(productId);
-      return FormateData(product);
+      const book = await this.repository.FindById(productId);
+      return FormateData(book);
     } catch (err) {
       throw new APIError("Data Not found");
     }
@@ -46,8 +46,8 @@ class ProductService {
 
   async GetProductsByCategory(category) {
     try {
-      const products = await this.repository.FindByCategory(category);
-      return FormateData(products);
+      const books = await this.repository.FindByCategory(category);
+      return FormateData(books);
     } catch (err) {
       throw new APIError("Data Not found");
     }
@@ -55,8 +55,8 @@ class ProductService {
 
   async GetSelectedProducts(selectedIds) {
     try {
-      const products = await this.repository.FindSelectedProducts(selectedIds);
-      return FormateData(products);
+      const books = await this.repository.FindSelectedProducts(selectedIds);
+      return FormateData(books);
     } catch (err) {
       throw new APIError("Data Not found");
     }
@@ -71,16 +71,16 @@ class ProductService {
   }
 
   async GetProductPayload(userId, { productId, qty }, event) {
-    const product = await this.repository.FindById(productId);
+    const book = await this.repository.FindById(productId);
 
-    if (product) {
+    if (book) {
       const payload = {
         event: event,
-        data: { userId, product, qty },
+        data: { userId, book, qty },
       };
       return FormateData(payload);
     } else {
-      return FormateData({ message: "Product Not Found" });
+      return FormateData({ message: "book Not Found" });
     }
   }
 }

@@ -11,7 +11,7 @@ const CustomerSchema = new Schema(
     address: [{ type: Schema.Types.ObjectId, ref: "address", require: true }],
     cart: [
       {
-        products: {
+        books: {
           _id: { type: String, require: true },
           name: { type: String },
           banner: { type: String },

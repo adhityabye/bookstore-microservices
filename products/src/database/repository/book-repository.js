@@ -13,7 +13,7 @@ class ProductRepository {
     banner,
   }) {
     try {
-      const product = new ProductModel({
+      const book = new ProductModel({
         name,
         desc,
         type,
@@ -24,25 +24,25 @@ class ProductRepository {
         banner,
       });
 
-      const productResult = await product.save();
+      const productResult = await book.save();
       return productResult;
     } catch (err) {
       throw new APIError(
         "API Error",
         STATUS_CODES.INTERNAL_ERROR,
-        "Unable to Create Product"
+        "Unable to Create book"
       );
     }
   }
 
-  async Products() {
+  async books() {
     try {
       return await ProductModel.find();
     } catch (err) {
       throw new APIError(
         "API Error",
         STATUS_CODES.INTERNAL_ERROR,
-        "Unable to Get Products"
+        "Unable to Get books"
       );
     }
   }
@@ -54,15 +54,15 @@ class ProductRepository {
       throw new APIError(
         "API Error",
         STATUS_CODES.INTERNAL_ERROR,
-        "Unable to Find Product"
+        "Unable to Find book"
       );
     }
   }
 
   async FindByCategory(category) {
     try {
-      const products = await ProductModel.find({ type: category });
-      return products;
+      const books = await ProductModel.find({ type: category });
+      return books;
     } catch (err) {
       throw new APIError(
         "API Error",
@@ -74,16 +74,16 @@ class ProductRepository {
 
   async FindSelectedProducts(selectedIds) {
     try {
-      const products = await ProductModel.find()
+      const books = await ProductModel.find()
         .where("_id")
         .in(selectedIds.map((_id) => _id))
         .exec();
-      return products;
+      return books;
     } catch (err) {
       throw new APIError(
         "API Error",
         STATUS_CODES.INTERNAL_ERROR,
-        "Unable to Find Product"
+        "Unable to Find book"
       );
     }
   }

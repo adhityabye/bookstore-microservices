@@ -10,6 +10,8 @@ module.exports = (app) => {
   //     "password": "123",
   //     "phone": "123"
   // }
+
+  //complete endpoint would be localhost:3000/customer/signup
   app.post("/signup", async (req, res, next) => {
     try {
       const { email, password, phone } = req.body;
@@ -23,6 +25,13 @@ module.exports = (app) => {
     }
   });
 
+  //example of request body
+  //{
+  //     "email": "mr.adhityabayu@gmail.com",
+  //     "password": "123"
+  // }
+
+  //complete endpoint would be localhost:3000/customer/login
   app.post("/login", async (req, res, next) => {
     try {
       const { email, password } = req.body;
@@ -36,6 +45,15 @@ module.exports = (app) => {
     }
   });
 
+  //example of request body
+  //{
+  //     "street": "Srumbung",
+  //     "postalCode": "56483",
+  //     "city": "Magelang",
+  //     "country": "Indonesia"
+  // }
+
+  //complete endpoint would be localhost:3000/customer/address
   app.post("/address", UserAuth, async (req, res, next) => {
     try {
       const { _id } = req.user;
@@ -52,6 +70,7 @@ module.exports = (app) => {
     }
   });
 
+  //complete endpoint would be localhost:3000/customer/profile
   app.get("/profile", UserAuth, async (req, res, next) => {
     try {
       const { _id } = req.user;
@@ -62,6 +81,8 @@ module.exports = (app) => {
     }
   });
 
+
+  //this is under developemnt endopoint (Not yet implemented in the service)
   app.get("/shoping-details", UserAuth, async (req, res, next) => {
     try {
       const { _id } = req.user;
@@ -72,6 +93,8 @@ module.exports = (app) => {
     }
   });
 
+
+  //complete endpoint would be localhost:3000/customer/wishlist
   app.get("/wishlist", UserAuth, async (req, res, next) => {
     try {
       const { _id } = req.user;
