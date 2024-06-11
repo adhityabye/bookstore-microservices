@@ -92,54 +92,6 @@ module.exports = (app) => {
     }
   });
 
-  app.put("/cart", UserAuth, async (req, res, next) => {
-    const { _id } = req.user;
-
-    try {
-      const { data } = await service.GetProductPayload(
-        _id,
-        { productId: req.body._id, qty: req.body.qty },
-        "CART_ADD"
-      );
-
-      PublishCustomerEvent(data);
-      PublishShoppingEvent(data);
-
-      const response = {
-        product: data.data.product,
-        cart: data.data.qty,
-      };
-
-      return res.status(200).json(response);
-    } catch (err) {
-      next(err);
-    }
-  });
-
-  app.delete("/cart/:id", UserAuth, async (req, res, next) => {
-    const { _id } = req.user;
-    const productId = req.params.id;
-
-    try {
-      const { data } = await service.GetProductPayload(
-        _id,
-        { productId },
-        "CART_REMOVE"
-      );
-
-      PublishProductEvent(data);
-      PublishShoppingEvent(data);
-
-      const response = {
-        product: data.data.product,
-        cart: data.data.qty,
-      };
-
-      return res.status(200).json(response);
-    } catch (err) {
-      next(err);
-    }
-  });
 
   app.get("/", async (req, res, next) => {
     try {
