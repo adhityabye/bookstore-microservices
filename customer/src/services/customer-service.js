@@ -7,6 +7,7 @@ const {
   ValidatePassword,
 } = require("../utils");
 const { APIError, BadRequestError } = require("../utils/app-errors");
+const redisClient = require("../utils/redis-client");
 
 class CustomerService {
   constructor() {
@@ -86,21 +87,30 @@ class CustomerService {
 
   async GetProfile(id) {
     try {
-      const existingCustomer = await this.repository.FindCustomerById({ id });
-      return FormateData(existingCustomer);
-    } catch (err) {
-      throw new APIError("Data Not found", err);
-    }
-  }
+      // Check if profile data is in the cache
+      const cachedProfile = await redisClient.get(`profile:${id}`);
 
-  async GetShopingDetails(id) {
-    try {
-      const existingCustomer = await this.repository.FindCustomerById({ id });
-
-      if (existingCustomer) {
-        return FormateData(existingCustomer);
+      if (cachedProfile) {
+        console.log("Profile data retrieved from cache");
+        return FormateData(JSON.parse(cachedProfile));
       }
-      return FormateData({ msg: "Error" });
+
+      // If not in cache, fetch from database
+      const existingCustomer = await this.repository.FindCustomerById({ id });
+
+      if (!existingCustomer) {
+        throw new APIError("Data Not found");
+      }
+
+      // Store the profile data in the cache with an expiration time of 1 hour
+      await redisClient.setEx(
+        `profile:${id}`,
+        3600,
+        JSON.stringify(existingCustomer)
+      );
+
+      console.log("Profile data retrieved from database");
+      return FormateData(existingCustomer);
     } catch (err) {
       throw new APIError("Data Not found", err);
     }
@@ -108,7 +118,29 @@ class CustomerService {
 
   async GetWishList(customerId) {
     try {
+      // Check if wishlist data is in the cache
+      const cachedWishList = await redisClient.get(`wishlist:${customerId}`);
+
+      if (cachedWishList) {
+        console.log("Wishlist data retrieved from cache");
+        return FormateData(JSON.parse(cachedWishList));
+      }
+
+      // If not in cache, fetch from database
       const wishListItems = await this.repository.Wishlist(customerId);
+
+      if (!wishListItems) {
+        throw new APIError("Data Not found");
+      }
+
+      // Store the wishlist data in the cache with an expiration time of 1 hour
+      await redisClient.setEx(
+        `wishlist:${customerId}`,
+        3600,
+        JSON.stringify(wishListItems)
+      );
+
+      console.log("Wishlist data retrieved from database");
       return FormateData(wishListItems);
     } catch (err) {
       throw new APIError("Data Not found", err);
@@ -148,6 +180,19 @@ class CustomerService {
         order
       );
       return FormateData(orderResult);
+    } catch (err) {
+      throw new APIError("Data Not found", err);
+    }
+  }
+
+  async GetShopingDetails(id) {
+    try {
+      const existingCustomer = await this.repository.FindCustomerById({ id });
+
+      if (existingCustomer) {
+        return FormateData(existingCustomer);
+      }
+      return FormateData({ msg: "Error" });
     } catch (err) {
       throw new APIError("Data Not found", err);
     }
