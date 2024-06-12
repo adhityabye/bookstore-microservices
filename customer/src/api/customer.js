@@ -81,19 +81,6 @@ module.exports = (app) => {
     }
   });
 
-
-  //this is under developemnt endopoint (Not yet implemented in the service)
-  app.get("/shoping-details", UserAuth, async (req, res, next) => {
-    try {
-      const { _id } = req.user;
-      const { data } = await service.GetShopingDetails(_id);
-      return res.json(data);
-    } catch (err) {
-      next(err);
-    }
-  });
-
-
   //complete endpoint would be localhost:3000/customer/wishlist
   app.get("/wishlist", UserAuth, async (req, res, next) => {
     try {
