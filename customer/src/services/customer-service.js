@@ -13,7 +13,7 @@ class CustomerService {
   constructor() {
     this.repository = new CustomerRepository();
   }
-
+  
   async SignIn(userInputs) {
     const { email, password } = userInputs;
     console.log("SignIn Inputs:", userInputs);
@@ -91,7 +91,7 @@ class CustomerService {
       const cachedProfile = await redisClient.get(`profile:${id}`);
 
       if (cachedProfile) {
-        console.log("Profile data retrieved from cache");
+        console.log("=====Profile data retrieved from cache=====");
         return FormateData(JSON.parse(cachedProfile));
       }
 
@@ -109,7 +109,7 @@ class CustomerService {
         JSON.stringify(existingCustomer)
       );
 
-      console.log("Profile data retrieved from database");
+      console.log("=====Profile data retrieved from database=====");
       return FormateData(existingCustomer);
     } catch (err) {
       throw new APIError("Data Not found", err);
