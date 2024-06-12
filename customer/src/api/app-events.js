@@ -9,6 +9,7 @@ module.exports = (app) => {
     service.SubscribeEvents(payload);
 
     console.log(`Event ${payload} subscribed`);
+    console.log("payload events detailnya: " + JSON.stringify(payload));
     return res.status(200).json(payload);
     res.json(payload);
   });

@@ -68,16 +68,6 @@ module.exports = (app) => {
     }
   });
 
-  app.post("/ids", async (req, res, next) => {
-    try {
-      const { ids } = req.body;
-      const books = await service.GetSelectedProducts(ids);
-      return res.status(200).json(books);
-    } catch (err) {
-      next(err);
-    }
-  });
-
   //this endpoint is to add the book to the wishlist.
   //complete endpoint would be localhost:3000/wishlist 
   //Its required request body like here

@@ -159,45 +159,6 @@ class CustomerService {
     }
   }
 
-  async ManageCart(customerId, book, qty, isRemove) {
-    try {
-      const cartResult = await this.repository.AddCartItem(
-        customerId,
-        book,
-        qty,
-        isRemove
-      );
-      return FormateData(cartResult);
-    } catch (err) {
-      throw new APIError("Data Not found", err);
-    }
-  }
-
-  async ManageOrder(customerId, order) {
-    try {
-      const orderResult = await this.repository.AddOrderToProfile(
-        customerId,
-        order
-      );
-      return FormateData(orderResult);
-    } catch (err) {
-      throw new APIError("Data Not found", err);
-    }
-  }
-
-  async GetShopingDetails(id) {
-    try {
-      const existingCustomer = await this.repository.FindCustomerById({ id });
-
-      if (existingCustomer) {
-        return FormateData(existingCustomer);
-      }
-      return FormateData({ msg: "Error" });
-    } catch (err) {
-      throw new APIError("Data Not found", err);
-    }
-  }
-
   async SubscribeEvents(payload) {
     const { event, data } = payload;
     const { userId, book, order, qty } = data;
