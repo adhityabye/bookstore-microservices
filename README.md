@@ -49,6 +49,18 @@ redis-cli
 127.0.0.1:6379> ping
 ```
 
+# Redis Implementation
+
+Redis diimplementasikan pada 2 endpoints yang memungkinakan user untuk secara lebih efisien emndapatkan data yang sebelumnya pernah di query. Data akan disimpan pada cache selama 1 jam.
+
+```
+localhost:3000/customer/profile
+```
+
+```
+localhost:3000/
+```
+
 ## Services ⁉️
 
 1. Go to each service directory, opened in separated terminal
